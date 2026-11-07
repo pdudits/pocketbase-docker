@@ -6,10 +6,10 @@
 </p>
 
 <p align="center">
-   <a aria-label="Latest PocketBase Version" href="https://github.com/pocketbase/pocketbase/releases" target="_blank">
-    <img alt="Latest PocketBase Version" src="https://img.shields.io/github/v/release/pocketbase/pocketbase?color=success&display_name=tag&label=latest&logo=docker&logoColor=%23fff&sort=semver&style=flat-square">
+   <a aria-label="PocketBase releases" href="https://ganigeorgiev.com/pocketbase/pocketbase/releases" target="_blank">
+    <img alt="PocketBase releases" src="https://img.shields.io/badge/PocketBase-releases-blue?style=flat-square&logo=docker&logoColor=%23fff">
   </a>
-  <a aria-label="Supported architectures" href="https://github.com/pocketbase/pocketbase/releases" target="_blank">
+  <a aria-label="Supported architectures" href="https://ganigeorgiev.com/pocketbase/pocketbase/releases" target="_blank">
     <img alt="Supported Docker architectures" src="https://img.shields.io/badge/platform-amd64%20%7C%20arm64%20%7C%20armv7-brightgreen?style=flat-square&logo=linux&logoColor=%23fff">
   </a>
 </p>
@@ -20,13 +20,26 @@
 
 ```bash
 # Basic usage - starts PocketBase server on port 8090
-docker run --rm -p 8090:8090 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 8090:8090 ghcr.io/pdudits/pocketbase:latest
 
 # Access the Admin UI at http://localhost:8090/_/
 ```
 
 > [!TIP]
 > For production use, mount volumes for data persistence: `-v ./pb_data:/pb_data`
+
+## Image Registry
+
+Images are published to GitHub Container Registry as `ghcr.io/pdudits/pocketbase`. The release workflow runs daily, looks for new stable PocketBase releases on the [new upstream host](https://ganigeorgiev.com/pocketbase/pocketbase/releases), tests the image, and pushes `latest` plus immutable version tags.
+
+Tags available for each stable release:
+
+| Tag      | Description                              |
+| -------- | ---------------------------------------- |
+| `latest` | Latest stable PocketBase release         |
+| `<x.y.z>` | Exact version, for example `0.41.1`     |
+| `<x.y>`  | Latest patch in a minor version          |
+| `<x>`    | Latest release in a major version        |
 
 ## Features
 
@@ -55,20 +68,20 @@ docker run --rm -p 8090:8090 ghcr.io/muchobien/pocketbase:latest
 
 ```bash
 # Starts PocketBase server with default settings
-docker run --rm -p 8090:8090 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 8090:8090 ghcr.io/pdudits/pocketbase:latest
 ```
 
 ### Custom Host and Port
 
 ```bash
 # Custom port
-docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/pdudits/pocketbase:latest
 
 # Localhost only (security)
-docker run --rm -p 8090:8090 -e PB_HOST=127.0.0.1 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 8090:8090 -e PB_HOST=127.0.0.1 ghcr.io/pdudits/pocketbase:latest
 
 # Custom host and port
-docker run --rm -p 9000:9000 -e PB_HOST=0.0.0.0 -e PB_PORT=9000 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 9000:9000 -e PB_HOST=0.0.0.0 -e PB_PORT=9000 ghcr.io/pdudits/pocketbase:latest
 ```
 
 ### Automatic Superuser Creation
@@ -78,7 +91,7 @@ docker run --rm -p 9000:9000 -e PB_HOST=0.0.0.0 -e PB_PORT=9000 ghcr.io/muchobie
 docker run --rm -p 8090:8090 \
   -e PB_ADMIN_EMAIL=admin@example.com \
   -e PB_ADMIN_PASSWORD=supersecret123 \
-  ghcr.io/muchobien/pocketbase:latest
+  ghcr.io/pdudits/pocketbase:latest
 
 # With data persistence
 docker run -d --name pocketbase \
@@ -86,7 +99,7 @@ docker run -d --name pocketbase \
   -v $(pwd)/pb_data:/pb_data \
   -e PB_ADMIN_EMAIL=admin@example.com \
   -e PB_ADMIN_PASSWORD=supersecret123 \
-  ghcr.io/muchobien/pocketbase:latest
+  ghcr.io/pdudits/pocketbase:latest
 ```
 
 > [!NOTE]
@@ -100,10 +113,10 @@ docker run -d --name pocketbase \
 
 ```bash
 # Enable development mode with detailed logging
-docker run --rm -p 8090:8090 ghcr.io/muchobien/pocketbase:latest --dev
+docker run --rm -p 8090:8090 ghcr.io/pdudits/pocketbase:latest --dev
 
 # Development with custom port
-docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/muchobien/pocketbase:latest --dev
+docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/pdudits/pocketbase:latest --dev
 ```
 
 > [!WARNING]  
@@ -113,26 +126,26 @@ docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/muchobien/pocketbase:latest
 
 ```bash
 # Show help
-docker run --rm ghcr.io/muchobien/pocketbase:latest --help
+docker run --rm ghcr.io/pdudits/pocketbase:latest --help
 
 # Show version
-docker run --rm ghcr.io/muchobien/pocketbase:latest --version
+docker run --rm ghcr.io/pdudits/pocketbase:latest --version
 
 # Run database migrations
-docker run --rm -v ./pb_data:/pb_data ghcr.io/muchobien/pocketbase:latest migrate
+docker run --rm -v ./pb_data:/pb_data ghcr.io/pdudits/pocketbase:latest migrate
 
 # Create superuser
-docker run --rm -it -v ./pb_data:/pb_data ghcr.io/muchobien/pocketbase:latest superuser create
+docker run --rm -it -v ./pb_data:/pb_data ghcr.io/pdudits/pocketbase:latest superuser create
 
 # Superuser help
-docker run --rm ghcr.io/muchobien/pocketbase:latest superuser --help
+docker run --rm ghcr.io/pdudits/pocketbase:latest superuser --help
 ```
 
 ### Shell Access
 
 ```bash
 # Access shell for debugging or maintenance
-docker run --rm -it --entrypoint /bin/sh ghcr.io/muchobien/pocketbase:latest
+docker run --rm -it --entrypoint /bin/sh ghcr.io/pdudits/pocketbase:latest
 ```
 
 ## Production Deployment
@@ -144,7 +157,7 @@ Below are example configurations for production deployment.
 ```yaml
 services:
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
+    image: ghcr.io/pdudits/pocketbase:latest
     container_name: pocketbase
     restart: unless-stopped
     environment:
@@ -197,7 +210,7 @@ docker run -d \
   -v $(pwd)/pb_public:/pb_public \
   -v $(pwd)/pb_hooks:/pb_hooks \
   --restart unless-stopped \
-  ghcr.io/muchobien/pocketbase:latest
+  ghcr.io/pdudits/pocketbase:latest
 
 # With custom port, host, superuser, and encryption
 docker run -d \
@@ -212,7 +225,7 @@ docker run -d \
   -v $(pwd)/pb_public:/pb_public \
   -v $(pwd)/pb_hooks:/pb_hooks \
   --restart unless-stopped \
-  ghcr.io/muchobien/pocketbase:latest \
+  ghcr.io/pdudits/pocketbase:latest \
   --encryptionEnv ENCRYPTION
 ```
 
@@ -226,7 +239,7 @@ docker run -d \
  --name=pocketbase-dev \
  -p 8090:8090 \
  -v $(pwd)/pb_data:/pb_data \
- ghcr.io/muchobien/pocketbase:latest \
+ ghcr.io/pdudits/pocketbase:latest \
  --dev
 ```
 
@@ -235,14 +248,14 @@ docker run -d \
 ### Building the Image Locally
 
 ```bash
-# Build with specific PocketBase version
-docker build --build-arg VERSION=0.22.21 -t my-pocketbase .
+# Build with a specific PocketBase version
+docker build --build-arg VERSION=0.41.1 -t my-pocketbase .
 
-# Build with latest version (uses latest release from GitHub)
-docker build --build-arg VERSION=0.23.0 -t my-pocketbase:0.23.0 .
+# Build a tagged image from the release archive on the new upstream host
+docker build --build-arg VERSION=0.41.1 -t my-pocketbase:0.41.1 .
 
-# Build without specifying version (uses default from Dockerfile)
-docker build -t my-pocketbase:dev .
+# VERSION is required: it selects the release archive on the new upstream host
+docker build --build-arg VERSION=0.41.1 -t my-pocketbase:dev .
 ```
 
 ### Docker Compose for Development
@@ -253,7 +266,7 @@ services:
     build:
       context: .
       args:
-        - VERSION=0.22.21
+        - VERSION=0.41.1
     container_name: pocketbase-dev
     environment:
       PB_HOST: 0.0.0.0
@@ -276,7 +289,7 @@ services:
 
 ```bash
 # First, start your PocketBase container (if not already running)
-docker run -d --name pocketbase -p 8090:8090 -v $(pwd)/pb_data:/pb_data ghcr.io/muchobien/pocketbase:latest
+docker run -d --name pocketbase -p 8090:8090 -v $(pwd)/pb_data:/pb_data ghcr.io/pdudits/pocketbase:latest
 
 # Create superuser in running container
 docker exec -it pocketbase /usr/local/bin/pocketbase superuser create --dir /pb_data
@@ -297,7 +310,7 @@ docker exec pocketbase /usr/local/bin/pocketbase superuser --help --dir /pb_data
 # compose.yml - your running setup
 services:
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
+    image: ghcr.io/pdudits/pocketbase:latest
     container_name: pocketbase
     ports:
       - "8090:8090"
@@ -330,15 +343,15 @@ docker compose down
 ```bash
 # Create superuser before starting server
 docker run --rm -it -v $(pwd)/pb_data:/pb_data \
-  ghcr.io/muchobien/pocketbase:latest superuser create
+  ghcr.io/pdudits/pocketbase:latest superuser create
 
 # Run migrations before starting server
 docker run --rm -v $(pwd)/pb_data:/pb_data \
-  ghcr.io/muchobien/pocketbase:latest migrate
+  ghcr.io/pdudits/pocketbase:latest migrate
 
 # Then start your server normally
 docker run -d --name pocketbase -p 8090:8090 -v $(pwd)/pb_data:/pb_data \
-  ghcr.io/muchobien/pocketbase:latest
+  ghcr.io/pdudits/pocketbase:latest
 ```
 
 ## Troubleshooting
@@ -349,7 +362,7 @@ docker run -d --name pocketbase -p 8090:8090 -v $(pwd)/pb_data:/pb_data \
 
 ```bash
 # Use a different port
-docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 3000:3000 -e PB_PORT=3000 ghcr.io/pdudits/pocketbase:latest
 ```
 
 **Permission issues with volumes:**
@@ -366,20 +379,20 @@ sudo chown -R 1000:1000 ./pb_data ./pb_public ./pb_hooks
 
 ```bash
 # Ensure PB_HOST is set to 0.0.0.0 (default)
-docker run --rm -p 8090:8090 -e PB_HOST=0.0.0.0 ghcr.io/muchobien/pocketbase:latest
+docker run --rm -p 8090:8090 -e PB_HOST=0.0.0.0 ghcr.io/pdudits/pocketbase:latest
 ```
 
 **Updating PocketBase:**
 
 ```bash
 # Pull the latest image
-docker pull ghcr.io/muchobien/pocketbase:latest
+docker pull ghcr.io/pdudits/pocketbase:latest
 
 # Stop and remove old container
 docker stop pocketbase && docker rm pocketbase
 
 # Start with new image (preserve data with volume mounts)
-docker run -d --name pocketbase -p 8090:8090 -v $(pwd)/pb_data:/pb_data ghcr.io/muchobien/pocketbase:latest
+docker run -d --name pocketbase -p 8090:8090 -v $(pwd)/pb_data:/pb_data ghcr.io/pdudits/pocketbase:latest
 
 # Or with Docker Compose
 docker compose pull
@@ -396,7 +409,7 @@ docker logs pocketbase
 docker exec -it pocketbase /bin/sh
 
 # Run with debug logging
-docker run --rm -p 8090:8090 ghcr.io/muchobien/pocketbase:latest --dev
+docker run --rm -p 8090:8090 ghcr.io/pdudits/pocketbase:latest --dev
 ```
 
 ## Image Information
@@ -413,14 +426,14 @@ This image supports multiple architectures. Docker will automatically pull the c
 
 ### Available Tags
 
-| Tag      | Description                        |
-| -------- | ---------------------------------- |
-| `latest` | Latest PocketBase release          |
-| `0.22.x` | Specific version (e.g., `0.22.21`) |
-| `0.22`   | Latest patch in minor version      |
-| `0`      | Latest release in major version    |
+| Tag       | Description                          |
+| --------- | ------------------------------------ |
+| `latest`  | Latest stable PocketBase release     |
+| `0.41.1`  | Specific version                     |
+| `0.41`    | Latest patch in minor version        |
+| `0`       | Latest release in major version      |
 
 ## Related Repositories
 
-- [PocketBase](https://github.com/pocketbase/pocketbase) - The official PocketBase repository
+- [PocketBase](https://ganigeorgiev.com/pocketbase/pocketbase) - The official PocketBase project
 - [PocketBase Documentation](https://pocketbase.io/docs/) - Official documentation
